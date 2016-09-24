@@ -14,7 +14,11 @@
                         <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CrimeActivity">
+        <activity
+            android:name=".CrimePagerActivity"
+            android:parentActivityName=".CrimeListActivity">
+            <!--CrimePagerActivity의 부모액티비티 를 CrimeListActivity로하여 계층적 내비게이션 활성화-->
+
 
         </activity>
     </application>

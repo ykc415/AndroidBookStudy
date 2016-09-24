@@ -2,11 +2,16 @@ package com.bignerdranch.andriod.criminalintent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -24,11 +29,20 @@ import java.util.UUID;
 public class CrimeListFragment extends Fragment {
 
     private static final int REQUEST_CRIME = 1;
+
     private Crime mc;
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private boolean mSubtitleVisible;
 
+    @Override
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        // 액티비티가 운영체제로부터 자신의 콜백 메서드 호출을 받았을 때 프래그먼트의 콜백 매서드가 호출받아야 한다는 것을
+        // 명시적으로 FragmentManager에 알려준다
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +62,59 @@ public class CrimeListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // 슈퍼클래스에 의해 정의된 어떤 메뉴 기능도 여전히 동작할 수 있도록 함 , 관례적일 뿐 특별한 의미는 없다.
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime_list,menu);
+
+        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+        if (mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { //사용자가 메뉴의 항목을 누르면 콜백 호출받음
+        //MenuItem의 ID를 가지고 어떤 메뉴를 눌렀는지 알수있다.
+        switch (item.getItemId()) {
+            case R.id.menu_item_new_crime: //새로운 범죄 메뉴 클릭했을 경우
+                Crime crime = new Crime(); //새로운 Crime 객체를 CrimeLab에 추가
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent intent = CrimePagerActivity // Crime 객체를 수정할수있게 CrimePagerActivity의 인스턴스를 시작시킨다.
+                        .newIntent(getActivity(), crime.getId());
+                startActivity(intent);
+                return true;
+            case R.id.menu_item_show_subtitle: //서브타이틀 메뉴 클릭했을 경우
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu(); // onCreateOptionsMenu() 를 호출
+                updateSubtitle();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void updateSubtitle() {
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+        // 서브타이틀 문자열을 생성
+        String subtitle = getString(R.string.subtitle_format,crimeCount);
+
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
+
+        // CrimeListFragment를 호스팅하는 액티비티의 타입을 AppCompatActivity로 캐스팅
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
 
@@ -82,7 +149,9 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            // Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            // CrimeActivity에서 CrimePagerActivity로 변경
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
             mc = mCrime;
             //startActivity(intent);
             startActivityForResult(intent, REQUEST_CRIME);
@@ -141,6 +210,8 @@ public class CrimeListFragment extends Fragment {
         } else {
             mAdapter.notifyItemChanged(crimes.lastIndexOf(mc));
         }
+
+        updateSubtitle();
     }
 
 }
