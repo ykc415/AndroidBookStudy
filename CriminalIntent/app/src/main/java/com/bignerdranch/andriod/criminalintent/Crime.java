@@ -12,11 +12,17 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String mSuspect;
+
+    public Crime() { //이생성자 호출하면
+        this(UUID.randomUUID()); // 새로 식벽번호만들어서 Crime(UUID id) 생성자를 다시호출함
+
+    }
 
 
-    public Crime() {
-        // 고유한 식별자를 생성한다.
-        mId = UUID.randomUUID();
+    public Crime(UUID id) {
+
+        mId = id;
         mDate = new Date();
 
     }
@@ -47,5 +53,13 @@ public class Crime {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect) {
+        mSuspect = suspect;
     }
 }
