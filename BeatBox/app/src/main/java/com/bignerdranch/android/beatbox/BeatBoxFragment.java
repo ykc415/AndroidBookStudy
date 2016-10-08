@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
 /**
  * Created by YKC on 2016. 10. 3..
  */
 public class BeatBoxFragment extends Fragment {
+
 
     private BeatBox mBeatBox;
 
@@ -25,6 +28,7 @@ public class BeatBoxFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true); // 프래그먼터를 유보시킨다.
 
         mBeatBox = new BeatBox(getActivity());
     }
@@ -38,23 +42,60 @@ public class BeatBoxFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view
                 .findViewById(R.id.fragment_beat_box_recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.setAdapter(new SoundAdapter());
+        recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
+
         return view;
     }
 
-    private class SoundHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBeatBox.release();
+    }
+
+
+    /*
+           SoundHolder 클래스
+
+     */
+    private class SoundHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         private Button mButton;
+        private Sound mSound;
 
         public SoundHolder(LayoutInflater inflater, ViewGroup container) {
             super(inflater.inflate(R.layout.list_item_sound, container, false));
 
             mButton = (Button)itemView.findViewById(R.id.list_item_sound_button);
+            mButton.setOnClickListener(this);
 
+        }
+
+        // Sound 인스턴스를 SoundHolder에 결합
+        public void bindSound(Sound sound) {
+            mSound = sound;
+            mButton.setText(mSound.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            mBeatBox.play(mSound);
         }
     }
 
+    /*
+          Sound 어댑터
+     */
+
     private class SoundAdapter extends RecyclerView.Adapter<SoundHolder> {
+
+        private List<Sound> mSound;
+
+        // 생성자
+        public SoundAdapter(List<Sound> sounds) {
+            mSound = sounds;
+        }
 
         @Override
         public SoundHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,12 +105,14 @@ public class BeatBoxFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(SoundHolder holder, int position) {
+            Sound sound = mSound.get(position);
+            holder.bindSound(sound); // 리스트에서 사운드인스턴스 받아와서 홀더에 바인드
 
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return mSound.size();
         }
     }
 }

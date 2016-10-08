@@ -24,10 +24,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         setContentView(getLayoutResId());
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container); // FrameLayout
 
         if (fragment == null) {
-            fragment = createFragment();
+            fragment = createFragment(); //BeatBoxFragment 인스턴스를 BeatBoxActivity.createFragment() -> BeatBoxFragment.newInstance()로 방아옴
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
