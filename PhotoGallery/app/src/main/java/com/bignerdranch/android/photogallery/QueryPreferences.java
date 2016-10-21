@@ -8,7 +8,10 @@ import android.preference.PreferenceManager;
  */
 
 public class QueryPreferences {
+
     private static final String PREF_SEARCH_QUERY = "searchQuery";
+    private static final String PREF_LAST_RESULT_ID = "lastResultId";
+
 
     // 디폴트 공유 프레퍼런스에 저장된 쿼리 문자열을 반환하는 메서드
     public static String getStoredQuery(Context context) {
@@ -23,6 +26,19 @@ public class QueryPreferences {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(PREF_SEARCH_QUERY, query)
+                .apply();
+    }
+
+    public static String getLastResultId(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_LAST_RESULT_ID, null);
+    }
+
+    // 가장최근 가져온 쿼리 결과의 사진ID를 저장
+    public static void setLastResultId(Context context, String lastResultId) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(PREF_LAST_RESULT_ID, lastResultId)
                 .apply();
     }
 }
