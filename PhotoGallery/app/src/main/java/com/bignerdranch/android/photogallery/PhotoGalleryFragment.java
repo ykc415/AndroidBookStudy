@@ -1,7 +1,6 @@
 package com.bignerdranch.android.photogallery;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -30,7 +28,7 @@ import java.util.List;
  * Created by YKC on 2016. 10. 16..
  */
 
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends VisibleFragment {
 
     private static final String TAG = "PhotoGalleryFragment";
 
@@ -49,10 +47,6 @@ public class PhotoGalleryFragment extends Fragment {
         setHasOptionsMenu(true); // 운영체제로부터 메뉴의 콜백 메서드 호출 받기위해
         updateItems();
 
-
-        // 서비스 시작 
-        Intent i = PollService.newIntent(getActivity());
-        getActivity().startService(i);
 
         Handler responseHandler = new Handler();
         mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
@@ -132,6 +126,13 @@ public class PhotoGalleryFragment extends Fragment {
                 searchView.setQuery(query, false);
             }
         });
+
+        MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
+        if (PollService.isServiceAlarmOn(getActivity())) {
+            toggleItem.setTitle(R.string.stop_polling);
+        } else {
+            toggleItem.setTitle(R.string.start_polling);
+        }
     }
 
     // 메뉴 옵션 아이템 선택
@@ -141,6 +142,11 @@ public class PhotoGalleryFragment extends Fragment {
             case R.id.menu_item_clear:
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
+                return true;
+            case R.id.menu_item_toggle_polling:
+                boolean shouldStartAlarm = !PollService.isServiceAlarmOn(getActivity());
+                PollService.setServiceAlarm(getActivity(), shouldStartAlarm);
+                getActivity().invalidateOptionsMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
