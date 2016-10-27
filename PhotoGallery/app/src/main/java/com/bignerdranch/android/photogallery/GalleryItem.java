@@ -1,5 +1,7 @@
 package com.bignerdranch.android.photogallery;
 
+import android.net.Uri;
+
 /**
  * Created by YKC on 2016. 10. 17..
  */
@@ -8,6 +10,23 @@ public class GalleryItem {
     private String mCaption;
     private String mId;
     private String mUrl;
+    private String mOwner;
+
+    public String getOwner() {
+        return mOwner;
+    }
+
+    public void setOwner(String owner) {
+        mOwner = owner;
+    }
+
+    public Uri getPhotoPageUri() {
+        return Uri.parse("http://www.flickr.com/photos/")
+                .buildUpon()
+                .appendPath(mOwner)
+                .appendPath(mId)
+                .build();
+    }
 
     @Override
     public String toString() {

@@ -1,11 +1,12 @@
 package com.bignerdranch.android.photogallery;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
-import android.widget.Toast;
+import android.util.Log;
 
 /**
  * Created by YKC on 2016. 10. 25..
@@ -18,7 +19,10 @@ public class VisibleFragment extends Fragment {
     public void onStart() {
         super.onStart();
         IntentFilter filter = new IntentFilter(PollService.ACTION_SHOW_NOTIFICATION);
-        getActivity().registerReceiver(mOnShowNotification, filter);
+
+        // 브로드캐스트리시버 설정할때 프라이빗 퍼미션도 같이 설정
+        getActivity().registerReceiver(mOnShowNotification, filter, PollService.PERM_PRIVATE, null);
+
     }
 
     @Override
@@ -30,10 +34,9 @@ public class VisibleFragment extends Fragment {
     private BroadcastReceiver mOnShowNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(getActivity(),
-                    "Got a broadcast:" + intent.getAction(),
-                    Toast.LENGTH_LONG)
-                    .show();
+            // 이 브로드캐스트 인텐트를 받는다는 것은 현재 프래그먼트가 화면에 보이는 것이므로 통지를 취소한다
+            Log.i(TAG, "canceling notification");
+            setResultCode(Activity.RESULT_CANCELED);
         }
     };
 
