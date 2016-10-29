@@ -22,4 +22,8 @@ AndroidStudy
 
 5. PhotoGallery
 ----------------
-<img width="276" alt="2016-10-19 9 14 42" src="https://cloud.githubusercontent.com/assets/21697390/19518250/184bf80c-9641-11e6-83c5-81c16b7fecfb.png">
+<img width="278" alt="2016-10-29 10 45 06" src="https://cloud.githubusercontent.com/assets/21697390/19829981/9c795bd4-9e29-11e6-8f29-8829812dbd54.png">
+<img width="275" alt="2016-10-29 10 45 39" src="https://cloud.githubusercontent.com/assets/21697390/19829985/b1cff6d2-9e29-11e6-9f74-08ac467d3f32.png">
+
+6. DragAndDraw
+<img width="276" alt="2016-10-29 10 38 57" src="https://cloud.githubusercontent.com/assets/21697390/19830008/36ef061e-9e2a-11e6-98e3-31c605e76a74.png">
