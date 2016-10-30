@@ -28,3 +28,7 @@ AndroidStudy
 6. DragAndDraw
 ----------------
 <img width="276" alt="2016-10-29 10 38 57" src="https://cloud.githubusercontent.com/assets/21697390/19830008/36ef061e-9e2a-11e6-98e3-31c605e76a74.png">
+
+7. Sunset
+----------------
+<img width="276" alt="2016-10-30 10 38 57" src="https://dl.dropboxusercontent.com/s/wxbnpddk50ii43h/5F00A0E4-CCF0-4A27-8725-7894BB0FFBEA-2137-00000674A9B230DF.gif?dl=0">
