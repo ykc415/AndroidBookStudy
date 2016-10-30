@@ -35,4 +35,5 @@ AndroidStudy
 
 8. Locatr
 ----------------
-<img width="276" alt="2016-10-30 22 38 57" src="https://dl.dropboxusercontent.com/s/s3jorgbz7jaotjw/2732ED1B-91EF-4432-9108-3A46F5163E48-1548-0000044E96769511.gif?dl=0">
+<img width="276" alt="2016-10-30 22 38 57" src="https://cloud.githubusercontent.com/assets/21697390/19836746/38c64fce-9eed-11e6-9216-e1c7dcbd8e0f.gif">
+
