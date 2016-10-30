@@ -32,3 +32,7 @@ AndroidStudy
 7. Sunset
 ----------------
 <img width="276" alt="2016-10-30 10 38 57" src="https://dl.dropboxusercontent.com/s/wxbnpddk50ii43h/5F00A0E4-CCF0-4A27-8725-7894BB0FFBEA-2137-00000674A9B230DF.gif?dl=0">
+
+8. Locatr
+----------------
+<img width="276" alt="2016-10-30 22 38 57" src="https://dl.dropboxusercontent.com/s/s3jorgbz7jaotjw/2732ED1B-91EF-4432-9108-3A46F5163E48-1548-0000044E96769511.gif?dl=0">
