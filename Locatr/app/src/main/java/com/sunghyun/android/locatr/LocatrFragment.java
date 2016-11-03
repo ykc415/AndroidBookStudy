@@ -93,6 +93,8 @@ public class LocatrFragment extends SupportMapFragment {
         mClient.disconnect();
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -145,7 +147,7 @@ public class LocatrFragment extends SupportMapFragment {
         MarkerOptions itemMarker = new MarkerOptions()
                 .position(itemPoint)
                 .icon(itemBitmap);
-        MarkerOptions myMarker = new MarkerOptions()
+        MarkerOptions myMarker = new MarkerOptions() // 내위치에 마커찍기
                 .position(myPoint);
 
         mMap.clear();
